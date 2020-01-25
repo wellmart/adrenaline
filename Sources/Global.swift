@@ -22,18 +22,9 @@
 //  THE SOFTWARE.
 //
 
-
 import Foundation
 
-public extension Double {
-    private struct DoubleFormatter {
-        static let `default` = NumberFormatter().apply {
-            $0.maximumFractionDigits = 2
-            $0.numberStyle = .decimal
-        }
-    }
-    
-    var stringValue: String? {
-        return DoubleFormatter.default.string(from: NSNumber(value: self))
-    }
+@inlinable
+public func clamp<T: Comparable>(_ value: T, minimum: T, maximum: T) -> T {
+    return max(min(value, maximum), minimum)
 }

@@ -30,9 +30,14 @@ public extension Array {
         self.init()
         self.reserveCapacity(reserveCapacity)
     }
-}
-
-public extension Array {
+    
+    @inlinable
+    func concurrentForEach(_ work: (Element) -> Void) {
+        DispatchQueue.concurrentPerform(iterations: count) {
+            work(self[$0])
+        }
+    }
+    
     @inlinable
     func concurrentMap<T>(_ transform: (Element) -> T) -> [T] {
         return Array<T>(unsafeUninitializedCapacity: count) { buffer, initializedCount in
@@ -45,13 +50,6 @@ public extension Array {
             }
             
             initializedCount = count
-        }
-    }
-    
-    @inlinable
-    func concurrentForEach(_ work: (Element) -> Void) {
-        DispatchQueue.concurrentPerform(iterations: count) {
-            work(self[$0])
         }
     }
 }

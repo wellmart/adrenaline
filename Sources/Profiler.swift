@@ -76,7 +76,7 @@ public struct Profiler {
     @inlinable
     public init(category: String) {
         guard let subsystem = Bundle.main.bundleIdentifier else {
-            preconditionFailure("Must be valid bundle identifier")
+            preconditionFailure("Could not get bundle identifier from the main bundle")
         }
         
         log = OSLog(subsystem: subsystem, category: category)
