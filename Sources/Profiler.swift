@@ -55,11 +55,6 @@ public struct Profiler {
         }
         
         @inlinable
-        public func event(_ name: StaticString) {
-            os_signpost(.event, log: log, name: name, signpostID: id)
-        }
-        
-        @inlinable
         public func end() {
             os_signpost(.end, log: log, name: name, signpostID: id)
         }
@@ -67,6 +62,11 @@ public struct Profiler {
         @inlinable
         public func end(_ format: StaticString, _ arguments: CVarArg...) {
             os_signpost(.end, log: log, name: name, signpostID: id, format, arguments)
+        }
+        
+        @inlinable
+        public func event(_ name: StaticString = #function) {
+            os_signpost(.event, log: log, name: name, signpostID: id)
         }
     }
     
@@ -83,17 +83,17 @@ public struct Profiler {
     }
     
     @inlinable
-    public func begin(_ name: StaticString) -> Tracing {
+    public func begin(_ name: StaticString = #function) -> Tracing {
         return Tracing(log: log, name: name)
     }
     
     @inlinable
-    public func begin(_ name: StaticString, _ format: StaticString, _ arguments: CVarArg...) -> Tracing {
+    public func begin(_ name: StaticString = #function, _ format: StaticString, _ arguments: CVarArg...) -> Tracing {
         return Tracing(log: log, name: name, format: format, arguments: arguments)
     }
     
     @inlinable
-    public func event(_ name: StaticString) {
+    public func event(_ name: StaticString = #function) {
         os_signpost(.event, log: log, name: name)
     }
 }
