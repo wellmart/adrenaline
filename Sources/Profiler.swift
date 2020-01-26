@@ -93,6 +93,11 @@ public struct Profiler {
     }
     
     @inlinable
+    public func debug(_ format: StaticString, _ arguments: CVarArg...) {
+        os_log(format, log: log, type: .debug, arguments)
+    }
+    
+    @inlinable
     public func event(name: StaticString = #function) {
         os_signpost(.event, log: log, name: name)
     }
