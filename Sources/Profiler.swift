@@ -24,6 +24,7 @@
 
 import Foundation
 import os
+import _SwiftOSOverlayShims
 
 public struct Profiler {
     public struct Tracing {
@@ -51,7 +52,7 @@ public struct Profiler {
             self.name = name
             self.id = OSSignpostID(log: log)
             
-            os_signpost(.begin, log: log, name: name, signpostID: id, format, arguments)
+            os_signpost_fixed(.begin, log: log, name: name, signpostID: id, format, arguments)
         }
         
         @inlinable
@@ -61,12 +62,21 @@ public struct Profiler {
         
         @inlinable
         public func end(_ format: StaticString, _ arguments: CVarArg...) {
-            os_signpost(.end, log: log, name: name, signpostID: id, format, arguments)
+            os_signpost_fixed(.end, log: log, name: name, signpostID: id, format, arguments)
         }
         
         @inlinable
         public func event(name: StaticString = #function) {
             os_signpost(.event, log: log, name: name, signpostID: id)
+        }
+        
+        @usableFromInline
+        func os_signpost_fixed(_ type: OSSignpostType, dso: UnsafeRawPointer = #dsohandle, log: OSLog, name: StaticString, signpostID: OSSignpostID = .exclusive, _ format: StaticString, _ arguments: CVarArg...) {
+            let ra = _swift_os_log_return_address()
+            
+            withVaList(arguments) { valist in
+                _swift_os_signpost_with_format(dso, ra, log, type, name.utf8StartChar, signpostID.rawValue, format.utf8StartChar, valist)
+            }
         }
     }
     
@@ -93,12 +103,26 @@ public struct Profiler {
     }
     
     @inlinable
-    public func debug(_ format: StaticString, _ arguments: CVarArg...) {
-        os_log(format, log: log, type: .debug, arguments)
+    public func debug(_ message: StaticString) {
+        os_log(.debug, log: log, message)
+    }
+    
+    @inlinable
+    public func debug(_ message: StaticString, _ arguments: CVarArg...) {
+        os_log_fixed(.debug, log: log, message, arguments)
     }
     
     @inlinable
     public func event(name: StaticString = #function) {
         os_signpost(.event, log: log, name: name)
+    }
+    
+    @usableFromInline
+    func os_log_fixed(_ type: OSLogType, dso: UnsafeRawPointer = #dsohandle, log: OSLog = .default, _ message: StaticString, _ args: CVarArg...) {
+        let ra = _swift_os_log_return_address()
+        
+        withVaList(args) { args in
+            _swift_os_log(dso, ra, log, type, message.utf8StartChar, args)
+        }
     }
 }
