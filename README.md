@@ -27,7 +27,7 @@ func main() {
     
     NSLog(666.string(paddingLeft: 7))
     
-    let view = UIView().also {
+    let view = UIView().apply {
         $0.backgroundColor = .red
     }
 }
