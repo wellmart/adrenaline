@@ -41,12 +41,12 @@ public extension Array {
     @inlinable
     func concurrentMap<T>(_ transform: (Element) -> T) -> [T] {
         return Array<T>(unsafeUninitializedCapacity: count) { buffer, initializedCount in
-            guard let buffer = buffer.baseAddress else {
+            guard let baseAddress = buffer.baseAddress else {
                 return
             }
             
             DispatchQueue.concurrentPerform(iterations: count) {
-                (buffer + $0).initialize(to: transform(self[$0]))
+                (baseAddress + $0).initialize(to: transform(self[$0]))
             }
             
             initializedCount = count
