@@ -26,9 +26,9 @@ import Foundation
 import os
 
 public protocol ProfilerProtocol {
-    func begin(name: StaticString) -> TracingProtocol
+    func begin(name: StaticString) -> ProfilerTracingProtocol
     
-    func begin(name: StaticString, _ message: String) -> TracingProtocol
+    func begin(name: StaticString, _ message: String) -> ProfilerTracingProtocol
     
     func debug(_ message: String)
     
@@ -52,13 +52,13 @@ public struct Profiler: ProfilerProtocol {
     }
     
     @inlinable
-    public func begin(name: StaticString) -> TracingProtocol {
-        return Tracing(log: log, name: name)
+    public func begin(name: StaticString) -> ProfilerTracingProtocol {
+        return ProfilerTracing(log: log, name: name)
     }
     
     @inlinable
-    public func begin(name: StaticString, _ message: String) -> TracingProtocol {
-        return Tracing(log: log, name: name, message: message)
+    public func begin(name: StaticString, _ message: String) -> ProfilerTracingProtocol {
+        return ProfilerTracing(log: log, name: name, message: message)
     }
     
     @inlinable

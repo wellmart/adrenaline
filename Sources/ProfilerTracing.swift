@@ -25,7 +25,7 @@
 import Foundation
 import os
 
-public protocol TracingProtocol {
+public protocol ProfilerTracingProtocol {
     func end()
     
     func end(_ message: String)
@@ -33,8 +33,8 @@ public protocol TracingProtocol {
     func event(name: StaticString)
 }
 
-@available(iOS 12.0, *)
-public struct Tracing: TracingProtocol {
+@available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
+public struct ProfilerTracing: ProfilerTracingProtocol {
     @usableFromInline
     let log: OSLog
     
