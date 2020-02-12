@@ -37,17 +37,6 @@ public protocol ProfilerProtocol {
     func info(_ message: String)
 }
 
-extension ProfilerProtocol {
-    @inlinable
-    public static func create(category: String) -> ProfilerProtocol? {
-        if #available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *) {
-            return Profiler(category: category)
-        }
-        
-        return nil
-    }
-}
-
 @available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
 public struct Profiler: ProfilerProtocol {
     @usableFromInline
