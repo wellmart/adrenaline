@@ -39,7 +39,7 @@ public protocol ProfilerProtocol {
 
 extension ProfilerProtocol {
     @inlinable
-    static func create(category: String) -> ProfilerProtocol? {
+    public static func create(category: String) -> ProfilerProtocol? {
         if #available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *) {
             return Profiler(category: category)
         }
