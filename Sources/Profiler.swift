@@ -25,6 +25,7 @@
 import Foundation
 import os
 
+@available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
 public struct Profiler {
     public struct Tracing {
         @usableFromInline
