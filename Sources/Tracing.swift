@@ -25,65 +25,55 @@
 import Foundation
 import os
 
-public protocol ProfilerProtocol {
-    func begin(name: StaticString) -> TracingProtocol
+public protocol TracingProtocol {
+    func end()
     
-    func begin(name: StaticString, _ message: String) -> TracingProtocol
-    
-    func debug(_ message: String)
+    func end(_ message: String)
     
     func event(name: StaticString)
-    
-    func info(_ message: String)
 }
 
-extension ProfilerProtocol {
-    @inlinable
-    static func create(category: String) -> ProfilerProtocol? {
-        if #available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *) {
-            return Profiler(category: category)
-        }
-        
-        return nil
-    }
-}
-
-@available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
-public struct Profiler: ProfilerProtocol {
+@available(iOS 12.0, *)
+public struct Tracing: TracingProtocol {
     @usableFromInline
     let log: OSLog
     
+    @usableFromInline
+    let name: StaticString
+    
+    @usableFromInline
+    let id: OSSignpostID
+    
     @inlinable
-    init(category: String) {
-        guard let subsystem = Bundle.main.bundleIdentifier else {
-            preconditionFailure("Could not get bundle identifier from the main bundle")
-        }
+    init(log: OSLog, name: StaticString) {
+        self.log = log
+        self.name = name
+        self.id = OSSignpostID(log: log)
         
-        log = OSLog(subsystem: subsystem, category: category)
+        os_signpost(.begin, log: log, name: name, signpostID: id)
     }
     
     @inlinable
-    public func begin(name: StaticString) -> TracingProtocol {
-        return Tracing(log: log, name: name)
+    init(log: OSLog, name: StaticString, message: String) {
+        self.log = log
+        self.name = name
+        self.id = OSSignpostID(log: log)
+        
+        os_signpost(.begin, log: log, name: name, signpostID: id, "%@", message)
     }
     
     @inlinable
-    public func begin(name: StaticString, _ message: String) -> TracingProtocol {
-        return Tracing(log: log, name: name, message: message)
+    public func end() {
+        os_signpost(.end, log: log, name: name, signpostID: id)
     }
     
     @inlinable
-    public func debug(_ message: String) {
-        os_log(.debug, log: log, "%@", message)
+    public func end(_ message: String) {
+        os_signpost(.end, log: log, name: name, signpostID: id, "%@", message)
     }
     
     @inlinable
     public func event(name: StaticString) {
-        os_signpost(.event, log: log, name: name)
-    }
-    
-    @inlinable
-    public func info(_ message: String) {
-        os_log(.info, log: log, "%@", message)
+        os_signpost(.event, log: log, name: name, signpostID: id)
     }
 }
