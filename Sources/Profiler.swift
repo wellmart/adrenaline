@@ -34,7 +34,7 @@ public protocol ProfilerProtocol {
     
     func event(name: StaticString)
     
-    func information(_ message: String)
+    func info(_ message: String)
 }
 
 @available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
@@ -72,7 +72,18 @@ public struct Profiler: ProfilerProtocol {
     }
     
     @inlinable
-    public func information(_ message: String) {
+    public func info(_ message: String) {
         os_log(.info, log: log, "%@", message)
+    }
+}
+
+extension ProfilerProtocol {
+    @inlinable
+    public static func createIfSupported(category: String) -> ProfilerProtocol? {
+        if #available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *) {
+            return Profiler(category: category)
+        }
+        
+        return nil
     }
 }
