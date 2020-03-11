@@ -27,6 +27,10 @@ import Foundation
 public extension Int {
     @inlinable
     func string(paddingLeft count: Int) -> String {
-        return String(format: "%0\(count)d", self)
+        let formatter = NumberFormatter().apply {
+            $0.minimumIntegerDigits = count
+        }
+        
+        return formatter.string(from: NSNumber(value: self))!
     }
 }
