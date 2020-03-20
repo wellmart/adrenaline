@@ -26,8 +26,20 @@ import Foundation
 
 public extension String {
     @inlinable
+    var containsNonWhitespace: Bool {
+        return !trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+    
+    @inlinable
     init(reserveCapacity: Int) {
         self.init()
         self.reserveCapacity(reserveCapacity)
+    }
+}
+
+public extension Optional where Wrapped == String {
+    @inlinable
+    var containsNonWhitespace: Bool {
+        return self?.containsNonWhitespace ?? false
     }
 }
