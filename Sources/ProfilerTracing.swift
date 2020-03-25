@@ -22,7 +22,6 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
 import os
 
 public protocol ProfilerTracingProtocol {
