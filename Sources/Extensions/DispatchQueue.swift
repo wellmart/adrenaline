@@ -25,20 +25,20 @@
 import Foundation
 
 public extension DispatchQueue {
-    private static let key: DispatchSpecificKey<()> = {
+    private static let mainKey: DispatchSpecificKey<()> = {
         let key = DispatchSpecificKey<()>()
         main.setSpecific(key: key, value: ())
         
         return key
     }()
     
-    static var isMain: Bool {
-        return getSpecific(key: key) != nil
+    static var isMainQueue: Bool {
+        return getSpecific(key: mainKey) != nil
     }
     
     @inlinable
-    static func mainIfNeedsAsync(action: @escaping () -> Void) {
-        guard !isMain else {
+    static func mainQueueIfNeedsAsync(action: @escaping () -> Void) {
+        guard !isMainQueue else {
             action()
             return
         }
@@ -49,8 +49,8 @@ public extension DispatchQueue {
     }
     
     @inlinable
-    static func mainIfNeedsSync(action: () -> Void) {
-        guard !isMain else {
+    static func mainQueueIfNeedsSync(action: () -> Void) {
+        guard !isMainQueue else {
             action()
             return
         }
