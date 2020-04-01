@@ -24,13 +24,15 @@
 
 import Foundation
 
-public extension Double {
-    private static let doubleFormatter = NumberFormatter().apply {
-        $0.maximumFractionDigits = 2
-        $0.numberStyle = .decimal
-    }
+public extension DispatchQueue {
+    private static let key: DispatchSpecificKey<()> = {
+        let key = DispatchSpecificKey<()>()
+        DispatchQueue.main.setSpecific(key: key, value: ())
+        
+        return key
+    }()
     
-    var stringValue: String? {
-        return Double.doubleFormatter.string(from: NSNumber(value: self))
+    static var isMainQueue: Bool {
+        return DispatchQueue.getSpecific(key: key) != nil
     }
 }
