@@ -27,12 +27,36 @@ import Foundation
 public extension DispatchQueue {
     private static let key: DispatchSpecificKey<()> = {
         let key = DispatchSpecificKey<()>()
-        DispatchQueue.main.setSpecific(key: key, value: ())
+        main.setSpecific(key: key, value: ())
         
         return key
     }()
     
-    static var isMainQueue: Bool {
-        return DispatchQueue.getSpecific(key: key) != nil
+    static var isMain: Bool {
+        return getSpecific(key: key) != nil
+    }
+    
+    @inlinable
+    static func mainIfNeedsAsync(action: @escaping () -> Void) {
+        guard !isMain else {
+            action()
+            return
+        }
+        
+        main.async {
+            action()
+        }
+    }
+    
+    @inlinable
+    static func mainIfNeedsSync(action: () -> Void) {
+        guard !isMain else {
+            action()
+            return
+        }
+        
+        main.sync {
+            action()
+        }
     }
 }
