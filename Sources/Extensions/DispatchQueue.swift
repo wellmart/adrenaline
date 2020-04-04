@@ -25,38 +25,45 @@
 import Foundation
 
 public extension DispatchQueue {
-    private static let mainKey: DispatchSpecificKey<()> = {
-        let key = DispatchSpecificKey<()>()
+    private static let mainQueueKey: DispatchSpecificKey<Void> = {
+        let key = DispatchSpecificKey<Void>()
         main.setSpecific(key: key, value: ())
         
         return key
     }()
     
-    static var isMainQueue: Bool {
-        return getSpecific(key: mainKey) != nil
+    class var isMainQueue: Bool {
+        return getSpecific(key: mainQueueKey) != nil
     }
     
     @inlinable
-    static func mainQueueIfNeedsAsync(action: @escaping () -> Void) {
+    class func mainQueueIfNeedsAsync(execute block: @escaping () -> Void) {
         guard !isMainQueue else {
-            action()
+            block()
             return
         }
         
-        main.async {
-            action()
-        }
+        main.async(execute: block)
     }
     
     @inlinable
-    static func mainQueueIfNeedsSync(action: () -> Void) {
+    class func mainQueueIfNeedsSync(execute block: () -> Void) {
         guard !isMainQueue else {
-            action()
+            block()
             return
         }
         
-        main.sync {
-            action()
+        main.sync(execute: block)
+    }
+}
+
+extension DispatchQueue {
+    @inlinable
+    class func concurrentPerform(iterations: Int, threads: Int, execute work: (Int) -> Void) {
+        concurrentPerform(iterations: threads) {
+            for index in stride(from: $0, to: iterations, by: threads) {
+                work(index)
+            }
         }
     }
 }

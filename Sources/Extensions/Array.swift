@@ -32,24 +32,36 @@ public extension Array {
     }
     
     @inlinable
-    func concurrentForEach(_ work: (Element) -> Void) {
-        DispatchQueue.concurrentPerform(iterations: count) {
+    func concurrentForEach(execute work: (Element) -> Void) {
+        DispatchQueue.concurrentPerform(iterations: count, threads: 4) {
             work(self[$0])
         }
     }
     
     @inlinable
-    func concurrentMap<T>(_ transform: (Element) -> T) -> [T] {
+    func concurrentMap<T>(transform: (Element) -> T) -> [T] {
         return Array<T>(unsafeUninitializedCapacity: count) { buffer, initializedCount in
             guard let baseAddress = buffer.baseAddress else {
                 return
             }
             
-            DispatchQueue.concurrentPerform(iterations: count) {
+            DispatchQueue.concurrentPerform(iterations: count, threads: 4) {
                 (baseAddress + $0).initialize(to: transform(self[$0]))
             }
             
             initializedCount = count
         }
+    }
+}
+
+public extension Array where Element: Equatable {
+    @discardableResult
+    mutating func remove(element: Element) -> Bool {
+        guard let index = firstIndex(of: element) else {
+            return false
+        }
+        
+        remove(at: index)
+        return true
     }
 }
