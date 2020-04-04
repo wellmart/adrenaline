@@ -25,20 +25,9 @@
 import Foundation
 
 public extension DispatchQueue {
-    private static let mainQueueKey: DispatchSpecificKey<Void> = {
-        let key = DispatchSpecificKey<Void>()
-        main.setSpecific(key: key, value: ())
-        
-        return key
-    }()
-    
-    class var isMainQueue: Bool {
-        return getSpecific(key: mainQueueKey) != nil
-    }
-    
     @inlinable
     class func mainQueueIfNeedsAsync(execute block: @escaping () -> Void) {
-        guard !isMainQueue else {
+        guard !Thread.isMainThread else {
             block()
             return
         }
@@ -48,7 +37,7 @@ public extension DispatchQueue {
     
     @inlinable
     class func mainQueueIfNeedsSync(execute block: () -> Void) {
-        guard !isMainQueue else {
+        guard !Thread.isMainThread else {
             block()
             return
         }
