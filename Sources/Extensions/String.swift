@@ -26,6 +26,11 @@ import Foundation
 
 public extension String {
     @inlinable
+    static var empty: String {
+        return ""
+    }
+    
+    @inlinable
     var containsNonWhitespace: Bool {
         return !trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }

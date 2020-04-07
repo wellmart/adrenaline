@@ -26,7 +26,7 @@ import Foundation
 
 public extension DispatchQueue {
     @inlinable
-    class func mainQueueIfNeedsAsync(execute block: @escaping () -> Void) {
+    class func mainAsyncIfNeeded(execute block: @escaping () -> Void) {
         guard !Thread.isMainThread else {
             block()
             return
@@ -36,7 +36,7 @@ public extension DispatchQueue {
     }
     
     @inlinable
-    class func mainQueueIfNeedsSync(execute block: () -> Void) {
+    class func mainSyncIfNeeded(execute block: () -> Void) {
         guard !Thread.isMainThread else {
             block()
             return
