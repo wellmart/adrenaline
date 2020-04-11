@@ -27,7 +27,7 @@ import Foundation
 public extension String {
     @inlinable
     static var empty: String {
-        return ""
+        return String()
     }
     
     @inlinable
