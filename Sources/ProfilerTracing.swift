@@ -46,18 +46,22 @@ public struct ProfilerTracing: ProfilerTracingProtocol {
     
     @inlinable
     init(log: OSLog, name: StaticString) {
+        let id = OSSignpostID(log: log)
+        
         self.log = log
         self.name = name
-        self.id = OSSignpostID(log: log)
+        self.id = id
         
         os_signpost(.begin, log: log, name: name, signpostID: id)
     }
     
     @inlinable
     init(log: OSLog, name: StaticString, message: String) {
+        let id = OSSignpostID(log: log)
+        
         self.log = log
         self.name = name
-        self.id = OSSignpostID(log: log)
+        self.id = id
         
         os_signpost(.begin, log: log, name: name, signpostID: id, "%@", message)
     }
