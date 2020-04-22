@@ -25,11 +25,6 @@
 import Foundation
 
 @inlinable
-public func clamp<T: Comparable>(_ value: T, minimum: T, maximum: T) -> T {
-    return max(min(value, maximum), minimum)
-}
-
-@inlinable
 public func createProfilerIfSupported(category: String) -> ProfilerProtocol? {
     if #available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *) {
         return Profiler(category: category)

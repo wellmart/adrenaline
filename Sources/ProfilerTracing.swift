@@ -22,6 +22,7 @@
 //  THE SOFTWARE.
 //
 
+import Foundation
 import os
 
 public protocol ProfilerTracingProtocol {
@@ -42,42 +43,42 @@ public struct ProfilerTracing: ProfilerTracingProtocol {
     let name: StaticString
     
     @usableFromInline
-    let id: OSSignpostID
+    let signpostID: OSSignpostID
     
     @inlinable
     init(log: OSLog, name: StaticString) {
-        let id = OSSignpostID(log: log)
+        let signpostID = OSSignpostID(log: log)
         
         self.log = log
         self.name = name
-        self.id = id
+        self.signpostID = signpostID
         
-        os_signpost(.begin, log: log, name: name, signpostID: id)
+        os_signpost(.begin, log: log, name: name, signpostID: signpostID)
     }
     
     @inlinable
     init(log: OSLog, name: StaticString, message: String) {
-        let id = OSSignpostID(log: log)
+        let signpostID = OSSignpostID(log: log)
         
         self.log = log
         self.name = name
-        self.id = id
+        self.signpostID = signpostID
         
-        os_signpost(.begin, log: log, name: name, signpostID: id, "%@", message)
+        os_signpost(.begin, log: log, name: name, signpostID: signpostID, "%@", message)
     }
     
     @inlinable
     public func end() {
-        os_signpost(.end, log: log, name: name, signpostID: id)
+        os_signpost(.end, log: log, name: name, signpostID: signpostID)
     }
     
     @inlinable
     public func end(_ message: String) {
-        os_signpost(.end, log: log, name: name, signpostID: id, "%@", message)
+        os_signpost(.end, log: log, name: name, signpostID: signpostID, "%@", message)
     }
     
     @inlinable
     public func event(name: StaticString) {
-        os_signpost(.event, log: log, name: name, signpostID: id)
+        os_signpost(.event, log: log, name: name, signpostID: signpostID)
     }
 }

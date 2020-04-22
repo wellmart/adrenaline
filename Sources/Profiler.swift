@@ -45,11 +45,11 @@ public struct Profiler: ProfilerProtocol {
     
     @inlinable
     init(category: String) {
-        guard let subsystem = Bundle.main.bundleIdentifier else {
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             preconditionFailure("Could not get bundle identifier from the main bundle")
         }
         
-        log = OSLog(subsystem: subsystem, category: category)
+        log = OSLog(subsystem: bundleIdentifier, category: category)
     }
     
     @inlinable

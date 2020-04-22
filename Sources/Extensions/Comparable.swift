@@ -24,43 +24,14 @@
 
 import Foundation
 
-public extension Array {
+public extension Comparable {
     @inlinable
-    init(reserveCapacity: Int) {
-        self.init()
-        self.reserveCapacity(reserveCapacity)
+    func between(minimum: Self, maximum: Self) -> Bool {
+        return minimum <= self && self < maximum
     }
     
     @inlinable
-    func concurrentForEach(threads: Int = 4, execute work: (Element) -> Void) {
-        DispatchQueue.concurrentPerform(iterations: count, threads: threads) {
-            work(self[$0])
-        }
-    }
-    
-    @inlinable
-    func concurrentMap<T>(threads: Int = 4, transform: (Element) -> T) -> [T] {
-        return Array<T>(unsafeUninitializedCapacity: count) { buffer, initializedCount in
-            guard let baseAddress = buffer.baseAddress else {
-                return
-            }
-            
-            DispatchQueue.concurrentPerform(iterations: count, threads: threads) {
-                (baseAddress + $0).initialize(to: transform(self[$0]))
-            }
-            
-            initializedCount = count
-        }
-    }
-}
-
-public extension Array where Element: Equatable {
-    @inlinable
-    mutating func remove(element: Element) {
-        guard let index = firstIndex(of: element) else {
-            return
-        }
-        
-        remove(at: index)
+    func clamped(minimum: Self, maximum: Self) -> Self {
+        return self < minimum ? minimum : maximum < self ? maximum : self
     }
 }

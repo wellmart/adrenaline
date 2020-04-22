@@ -26,17 +26,12 @@ import Foundation
 
 public extension DispatchQueue {
     @inlinable
-    class func mainAsyncIfNeeded(execute block: @escaping () -> Void) {
-        guard !Thread.isMainThread else {
-            block()
-            return
-        }
-        
-        main.async(execute: block)
+    static var background: DispatchQueue {
+        return global(qos: .background)
     }
     
     @inlinable
-    class func mainSyncIfNeeded(execute block: () -> Void) {
+    static func mainSyncIfNeeded(execute block: () -> Void) {
         guard !Thread.isMainThread else {
             block()
             return
@@ -48,7 +43,7 @@ public extension DispatchQueue {
 
 extension DispatchQueue {
     @inlinable
-    class func concurrentPerform(iterations: Int, threads: Int, execute work: (Int) -> Void) {
+    static func concurrentPerform(iterations: Int, threads: Int, execute work: (Int) -> Void) {
         concurrentPerform(iterations: threads) {
             for index in stride(from: $0, to: iterations, by: threads) {
                 work(index)
