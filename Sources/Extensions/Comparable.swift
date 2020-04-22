@@ -26,11 +26,6 @@ import Foundation
 
 public extension Comparable {
     @inlinable
-    func between(minimum: Self, maximum: Self) -> Bool {
-        return minimum <= self && self < maximum
-    }
-    
-    @inlinable
     func clamped(minimum: Self, maximum: Self) -> Self {
         return self < minimum ? minimum : maximum < self ? maximum : self
     }
