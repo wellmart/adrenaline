@@ -33,7 +33,6 @@ public protocol ProfilerTracingProtocol {
     func event(name: StaticString)
 }
 
-@frozen
 @available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
 public struct ProfilerTracing: ProfilerTracingProtocol {
     @usableFromInline

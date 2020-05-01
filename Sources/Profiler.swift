@@ -37,7 +37,6 @@ public protocol ProfilerProtocol {
     func info(_ message: String)
 }
 
-@frozen
 @available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
 public struct Profiler: ProfilerProtocol {
     @usableFromInline
