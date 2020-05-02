@@ -26,7 +26,7 @@ import Foundation
 
 public extension Collection {
     @inlinable
-    subscript(safe index: Index) -> Element? {
+    subscript(optional index: Index) -> Element? {
         return startIndex <= index && index < endIndex ? self[index] : nil
     }
 }
