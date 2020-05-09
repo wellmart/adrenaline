@@ -26,7 +26,7 @@ import Foundation
 
 public extension Date {
     @inlinable
-    static var now: Date {
+    static var today: Date {
         return Date()
     }
 }

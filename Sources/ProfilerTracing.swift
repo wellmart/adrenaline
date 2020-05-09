@@ -63,6 +63,10 @@ public struct ProfilerTracing: ProfilerTracingProtocol {
         self.name = name
         self.signpostID = signpostID
         
+        #if DEBUG
+        os_log(.debug, log: log, "%@", message)
+        #endif
+        
         os_signpost(.begin, log: log, name: name, signpostID: signpostID, "%@", message)
     }
     
