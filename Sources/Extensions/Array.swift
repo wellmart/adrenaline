@@ -52,6 +52,22 @@ public extension Array {
             initializedCount = count
         }
     }
+    
+    @inlinable
+    func forEachGrouped<T: Equatable>(by keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
+        var key: T? = nil
+        
+        for element in self {
+            let itemKey = element[keyPath: keyPath]
+            
+            if itemKey != key {
+                keyBody(itemKey)
+                key = itemKey
+            }
+            
+            body(element)
+        }
+    }
 }
 
 public extension Array where Element: Equatable {
