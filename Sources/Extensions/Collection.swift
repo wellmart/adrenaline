@@ -29,4 +29,15 @@ public extension Collection {
     subscript(optional index: Index) -> Element? {
         return startIndex <= index && index < endIndex ? self[index] : nil
     }
+    
+    @inlinable
+    func count(where predicate: (Element) -> Bool) -> Int {
+        var count = 0
+        
+        for element in self where predicate(element) {
+            count += 1
+        }
+        
+        return count
+    }
 }
