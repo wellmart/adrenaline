@@ -54,15 +54,20 @@ public extension Array {
     }
     
     @inlinable
+    func first<T>(of: T.Type) -> T? {
+        return first { $0 is T } as? T
+    }
+    
+    @inlinable
     func forEachGrouped<T: Equatable>(by keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
-        var key: T? = nil
+        var lastKey: T? = nil
         
         for element in self {
-            let itemKey = element[keyPath: keyPath]
+            let key = element[keyPath: keyPath]
             
-            if itemKey != key {
-                keyBody(itemKey)
-                key = itemKey
+            if key != lastKey {
+                keyBody(key)
+                lastKey = key
             }
             
             body(element)
@@ -78,5 +83,10 @@ public extension Array where Element: Equatable {
         }
         
         remove(at: index)
+    }
+    
+    @inlinable
+    func subtracting(_ array: Array<Element>) -> Array<Element> {
+        return filter { !array.contains($0) }
     }
 }
