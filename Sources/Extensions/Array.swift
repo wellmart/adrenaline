@@ -74,19 +74,3 @@ public extension Array {
         }
     }
 }
-
-public extension Array where Element: Equatable {
-    @inlinable
-    mutating func remove(element: Element) {
-        guard let index = firstIndex(of: element) else {
-            return
-        }
-        
-        remove(at: index)
-    }
-    
-    @inlinable
-    func subtracting(_ array: Array<Element>) -> Array<Element> {
-        return filter { !array.contains($0) }
-    }
-}
