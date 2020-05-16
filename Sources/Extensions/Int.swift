@@ -26,9 +26,9 @@ import Foundation
 
 public extension Int {
     @inlinable
-    func string(paddingZeros count: Int) -> String? {
+    func string(minimumDigits: Int) -> String? {
         let formatter = NumberFormatter().apply {
-            $0.minimumIntegerDigits = count
+            $0.minimumIntegerDigits = minimumDigits
         }
         
         return formatter.string(from: NSNumber(value: self))

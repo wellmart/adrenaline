@@ -59,7 +59,7 @@ public extension Array {
     }
     
     @inlinable
-    func forEachGrouped<T: Equatable>(by keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
+    func forEach<T: Equatable>(groupedBy keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
         var lastKey: T? = nil
         
         for element in self {
