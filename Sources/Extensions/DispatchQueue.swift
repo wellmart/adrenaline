@@ -43,7 +43,7 @@ public extension DispatchQueue {
 
 extension DispatchQueue {
     @inlinable
-    static func concurrentPerform(iterations: Int, threads: Int, execute work: (Int) -> Void) {
+    static func concurrentPerform(iterations: Int, threads: Int, execute work: (_ index: Int) -> Void) {
         concurrentPerform(iterations: threads) {
             for index in stride(from: $0, to: iterations, by: threads) {
                 work(index)

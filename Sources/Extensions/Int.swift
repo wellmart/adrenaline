@@ -26,11 +26,11 @@ import Foundation
 
 public extension Int {
     @inlinable
-    func string(paddingZeros count: Int) -> String {
+    func string(paddingZeros count: Int) -> String? {
         let formatter = NumberFormatter().apply {
             $0.minimumIntegerDigits = count
         }
         
-        return formatter.string(from: NSNumber(value: self))!
+        return formatter.string(from: NSNumber(value: self))
     }
 }
