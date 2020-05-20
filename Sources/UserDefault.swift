@@ -26,17 +26,19 @@ import Foundation
 
 @propertyWrapper
 public struct UserDefault<T> {
+    public typealias Block = () -> T
+
     private let key: String
-    private let defaultValue: T
-    
-    public init(_ key: String, defaultValue: T) {
+    private let defaultBlock: Block
+
+    public init(_ key: String, defaultValue defaultBlock: @autoclosure @escaping Block) {
         self.key = key
-        self.defaultValue = defaultValue
+        self.defaultBlock = defaultBlock
     }
-    
+
     public var wrappedValue: T {
         get {
-            return UserDefaults.standard.object(forKey: key) as? T ?? defaultValue
+            return UserDefaults.standard.object(forKey: key) as? T ?? defaultBlock()
         }
         set {
             UserDefaults.standard.set(newValue, forKey: key)
