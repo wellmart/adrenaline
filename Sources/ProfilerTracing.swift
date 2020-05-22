@@ -38,7 +38,7 @@ public struct ProfilerTracing: ProfilerTracingProtocol {
     private let log: OSLog
     private let name: StaticString
     private let signpostID: OSSignpostID
-
+    
     init(log: OSLog, name: StaticString) {
         let signpostID = OSSignpostID(log: log)
         
@@ -48,7 +48,7 @@ public struct ProfilerTracing: ProfilerTracingProtocol {
         
         os_signpost(.begin, log: log, name: name, signpostID: signpostID)
     }
-
+    
     init(log: OSLog, name: StaticString, message: String) {
         let signpostID = OSSignpostID(log: log)
         
@@ -62,15 +62,15 @@ public struct ProfilerTracing: ProfilerTracingProtocol {
         os_log(.debug, log: log, "%@", message)
         #endif
     }
-
+    
     public func end() {
         os_signpost(.end, log: log, name: name, signpostID: signpostID)
     }
-
+    
     public func end(_ message: String) {
         os_signpost(.end, log: log, name: name, signpostID: signpostID, "%@", message)
     }
-
+    
     public func event(name: StaticString) {
         os_signpost(.event, log: log, name: name, signpostID: signpostID)
     }

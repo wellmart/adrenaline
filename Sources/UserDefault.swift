@@ -27,15 +27,15 @@ import Foundation
 @propertyWrapper
 public struct UserDefault<T> {
     public typealias Block = () -> T
-
+    
     private let key: String
     private let defaultBlock: Block
-
+    
     public init(_ key: String, defaultValue defaultBlock: @autoclosure @escaping Block) {
         self.key = key
         self.defaultBlock = defaultBlock
     }
-
+    
     public var wrappedValue: T {
         get {
             return UserDefaults.standard.object(forKey: key) as? T ?? defaultBlock()
