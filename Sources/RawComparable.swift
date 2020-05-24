@@ -29,7 +29,7 @@ public protocol RawComparable: Comparable where Self: RawRepresentable, RawValue
 
 public extension RawComparable {
     @inlinable
-    static func <(lhs: Self, rhs: Self) -> Bool {
+    static func < (lhs: Self, rhs: Self) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }
 }
