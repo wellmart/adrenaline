@@ -33,4 +33,10 @@ public extension Double {
     var stringValue: String? {
         return Double.doubleFormatter.string(from: NSNumber(value: self))
     }
+    
+    @inlinable
+    func round(places: Int) -> Double {
+        let divisor = pow(10, Double(places))
+        return (self * divisor).rounded() / divisor
+    }
 }
