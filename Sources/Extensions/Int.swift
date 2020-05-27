@@ -26,13 +26,13 @@ import Foundation
 
 public extension Int {
     @inlinable
-    static func maximum(_ value1: Int, _ value2: Int) -> Int {
-        return value1 < value2 ? value2 : value1
+    static func minimum(_ value1: Int, _ value2: Int) -> Int {
+        return value1 > value2 ? value2 : value1
     }
     
     @inlinable
-    static func minimum(_ value1: Int, _ value2: Int) -> Int {
-        return value1 > value2 ? value2 : value1
+    static func maximum(_ value1: Int, _ value2: Int) -> Int {
+        return value1 < value2 ? value2 : value1
     }
     
     @inlinable
