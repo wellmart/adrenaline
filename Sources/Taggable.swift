@@ -25,6 +25,11 @@
 import Foundation
 
 public struct Taggable<T, T2: Comparable> {
-    let item: T
-    let tag: T2
+    public let item: T
+    public let tag: T2
+    
+    public init(item: T, tag: T2) {
+        self.item = item
+        self.tag = tag
+    }
 }
