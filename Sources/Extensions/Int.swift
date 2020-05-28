@@ -26,16 +26,6 @@ import Foundation
 
 public extension Int {
     @inlinable
-    static func maximum(_ value1: Int, _ value2: Int) -> Int {
-        return value1 < value2 ? value2 : value1
-    }
-    
-    @inlinable
-    static func minimum(_ value1: Int, _ value2: Int) -> Int {
-        return value1 > value2 ? value2 : value1
-    }
-    
-    @inlinable
     func string(minimumDigits: Int) -> String? {
         let formatter = NumberFormatter().apply {
             $0.minimumIntegerDigits = minimumDigits

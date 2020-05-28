@@ -28,9 +28,9 @@ public extension NSObjectProtocol {
     @inlinable
     @discardableResult
     func apply(_ work: (inout Self) -> Void) -> Self {
-        var value = self
+        var object = self
         
-        work(&value)
-        return value
+        work(&object)
+        return object
     }
 }

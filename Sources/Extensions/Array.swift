@@ -55,7 +55,7 @@ public extension Array {
     }
     
     @inlinable
-    func forEach<T: Comparable>(groupBy keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
+    func forEachGrouping<T: Comparable>(by keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
         let elements = sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] }
         var lastKey: T? = nil
         
