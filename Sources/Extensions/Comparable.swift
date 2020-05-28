@@ -26,7 +26,7 @@ import Foundation
 
 public extension Comparable {
     @inlinable
-    func clamped(minimum: Self, maximum: Self) -> Self {
+    func clamped(maximum: Self, minimum: Self) -> Self {
         return self < minimum ? minimum : maximum < self ? maximum : self
     }
 }
