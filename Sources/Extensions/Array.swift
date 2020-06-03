@@ -88,6 +88,17 @@ public extension Array where Element == Double {
         
         return minimum
     }
+    
+    @inlinable
+    var sum: Double {
+        var sum: Double = 0
+        
+        for element in self {
+            sum += element
+        }
+        
+        return sum
+    }
 }
 
 public extension Array where Element: Equatable {

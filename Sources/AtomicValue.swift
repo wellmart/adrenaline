@@ -42,19 +42,3 @@ public final class AtomicValue<T> {
         transform(&value)
     }
 }
-
-@available(macOS 10.12, iOS 10, tvOS 12, watchOS 3, *)
-public extension AtomicValue where T: SignedInteger {
-    @inlinable
-    static var zero: Self {
-        return Self(0)
-    }
-}
-
-@available(macOS 10.12, iOS 10, tvOS 12, watchOS 3, *)
-public extension AtomicValue where T: FloatingPoint {
-    @inlinable
-    static var zero: Self {
-        return Self(0)
-    }
-}
