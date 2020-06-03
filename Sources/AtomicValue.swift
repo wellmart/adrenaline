@@ -24,32 +24,21 @@
 
 import Foundation
 
-@propertyWrapper
 @available(macOS 10.12, iOS 10, tvOS 12, watchOS 3, *)
-public final class Atomic<T> {
-    private lazy var lock = os_unfair_lock()
-    private var value: T
+public final class AtomicValue<T> {
+    public private(set) var value: T
+    private var lock = os_unfair_lock()
     
-    public init(wrappedValue value: T) {
+    public init(_ value: T) {
         self.value = value
     }
     
-    public var wrappedValue: T {
-        get {
-            defer {
-                os_unfair_lock_unlock(&lock)
-            }
-            
-            os_unfair_lock_lock(&lock)
-            return value
+    public func mutate(_ transform: (inout T) -> ()) {
+        defer {
+            os_unfair_lock_unlock(&lock)
         }
-        set {
-            defer {
-                os_unfair_lock_unlock(&lock)
-            }
-            
-            os_unfair_lock_lock(&lock)
-            value = newValue
-        }
+        
+        os_unfair_lock_lock(&lock)
+        transform(&value)
     }
 }

@@ -55,7 +55,7 @@ public extension Array {
     }
     
     @inlinable
-    func forEachGroup<T: Comparable>(by keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
+    func forEachGrouped<T: Comparable>(by keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
         let elements = sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] }
         var lastKey: T? = nil
         
@@ -69,17 +69,6 @@ public extension Array {
             
             body(element)
         }
-    }
-}
-
-public extension Array where Element: Equatable {
-    @inlinable
-    mutating func remove(_ element: Element) {
-        guard let index = firstIndex(of: element) else {
-            return
-        }
-        
-        remove(at: index)
     }
 }
 
@@ -98,5 +87,16 @@ public extension Array where Element == Double {
         vDSP_minvD(self, 1, &minimum, vDSP_Length(count))
         
         return minimum
+    }
+}
+
+public extension Array where Element: Equatable {
+    @inlinable
+    mutating func remove(_ element: Element) {
+        guard let index = firstIndex(of: element) else {
+            return
+        }
+        
+        remove(at: index)
     }
 }
