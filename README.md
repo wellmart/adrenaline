@@ -19,17 +19,17 @@ import UIKit
 import Adrenaline
 
 func main() {
-    let items = [String](reserveCapacity: 100)
-    
-    if let item = items[safe: 50] {
-        NSLog(item)
-    }
-    
-    NSLog(666.string(paddingLeft: 7))
-    
-    let view = UIView().apply {
-        $0.backgroundColor = .red
-    }
+let items = [String](reserveCapacity: 100)
+
+if let item = items[safe: 50] {
+NSLog(item)
+}
+
+NSLog(666.string(minimumDigits: 7))
+
+let view = UIView().apply {
+$0.backgroundColor = .red
+}
 }
 ```
 
