@@ -33,28 +33,6 @@ public extension Array {
     }
     
     @inlinable
-    func concurrentForEach(threads: Int = 4, execute work: (Element) -> Void) {
-        DispatchQueue.concurrentPerform(iterations: count, threads: threads) {
-            work(self[$0])
-        }
-    }
-    
-    @inlinable
-    func concurrentMap<T>(threads: Int = 4, transform: (Element) -> T) -> [T] {
-        return Array<T>(unsafeUninitializedCapacity: count) { buffer, initializedCount in
-            guard let baseAddress = buffer.baseAddress else {
-                return
-            }
-            
-            DispatchQueue.concurrentPerform(iterations: count, threads: threads) {
-                (baseAddress + $0).initialize(to: transform(self[$0]))
-            }
-            
-            initializedCount = count
-        }
-    }
-    
-    @inlinable
     func forEachGrouped<T: Comparable>(by keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
         let elements = sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] }
         var lastKey: T? = nil
@@ -62,7 +40,7 @@ public extension Array {
         for element in elements {
             let key = element[keyPath: keyPath]
             
-            if key != lastKey {
+            if lastKey != key {
                 keyBody(key)
                 lastKey = key
             }
