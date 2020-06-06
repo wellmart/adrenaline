@@ -71,6 +71,14 @@ public extension Array where Element == Double {
         
         return minimum
     }
+    
+    @inlinable
+    var sum: Double {
+        var sum: Double = 0
+        vDSP_sveD(self, 1, &sum, vDSP_Length(count))
+        
+        return sum
+    }
 }
 
 public extension Array where Element: Equatable {
