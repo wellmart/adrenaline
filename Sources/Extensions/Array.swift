@@ -57,27 +57,27 @@ public extension Array {
 
 public extension Array where Element == Double {
     @inlinable
-    var maximum: Double {
-        var maximum: Double = 0
-        vDSP_maxvD(self, 1, &maximum, vDSP_Length(count))
+    func maximum() -> Double {
+        var value: Double = 0
+        vDSP_maxvD(self, 1, &value, vDSP_Length(count))
         
-        return maximum
+        return value
     }
     
     @inlinable
-    var minimum: Double {
-        var minimum: Double = 0
-        vDSP_minvD(self, 1, &minimum, vDSP_Length(count))
+    func minimum() -> Double {
+        var value: Double = 0
+        vDSP_minvD(self, 1, &value, vDSP_Length(count))
         
-        return minimum
+        return value
     }
     
     @inlinable
-    var sum: Double {
-        var sum: Double = 0
-        vDSP_sveD(self, 1, &sum, vDSP_Length(count))
+    func sum() -> Double {
+        var value: Double = 0
+        vDSP_sveD(self, 1, &value, vDSP_Length(count))
         
-        return sum
+        return value
     }
 }
 
