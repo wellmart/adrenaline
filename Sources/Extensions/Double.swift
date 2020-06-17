@@ -35,6 +35,11 @@ public extension Double {
     }
     
     @inlinable
+    var nonZeroAndValid: Bool {
+        return round(places: 10) != 0
+    }
+    
+    @inlinable
     func round(places: Int) -> Double {
         let divisor = pow(10, Double(places))
         return (self * divisor).rounded() / divisor
