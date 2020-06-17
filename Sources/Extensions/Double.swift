@@ -35,7 +35,7 @@ public extension Double {
     }
     
     @inlinable
-    var nonZeroAndValid: Bool {
+    func nonZero() -> Bool {
         return round(places: 10) != 0
     }
     
