@@ -33,7 +33,23 @@ public extension Array {
     }
     
     @inlinable
-    func first<T>(of: T.Type) -> T? {
+    subscript(optional index: Index) -> Element? {
+        return index >= 0 && index < count ? self[index] : nil
+    }
+    
+    @inlinable
+    func count(where predicate: (Element) -> Bool) -> Int {
+        var count = 0
+        
+        for element in self where predicate(element) {
+            count += 1
+        }
+        
+        return count
+    }
+    
+    @inlinable
+    func firstOf<T>(_ type: T.Type) -> T? {
         return first { $0 is T } as? T
     }
     
