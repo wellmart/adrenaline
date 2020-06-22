@@ -24,7 +24,7 @@
 
 import Foundation
 
-public struct Runtime {
+public enum Runtime {
     @inlinable
     @discardableResult
     public static func swizzle<T: AnyObject>(_ type: T.Type, original: Selector, swizzled: Selector) -> Bool {
