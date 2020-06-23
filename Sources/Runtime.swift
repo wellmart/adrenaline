@@ -31,7 +31,7 @@ public enum Runtime {
         guard
             let originalMethod = class_getInstanceMethod(type, original),
             let swizzledMethod = class_getInstanceMethod(type, swizzled) else {
-                return false
+            return false
         }
         
         if !class_addMethod(type, original, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod)) {

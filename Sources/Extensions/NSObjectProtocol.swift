@@ -27,10 +27,8 @@ import Foundation
 public extension NSObjectProtocol {
     @inlinable
     @discardableResult
-    func apply(_ work: (inout Self) -> Void) -> Self {
-        var object = self
-        
-        work(&object)
-        return object
+    func apply(_ work: (Self) -> Void) -> Self {
+        work(self)
+        return self
     }
 }
