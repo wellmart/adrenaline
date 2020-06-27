@@ -39,8 +39,10 @@ public protocol ProfilerProtocol {
 
 @available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
 public struct Profiler: ProfilerProtocol {
-    private let log: OSLog
+    @usableFromInline
+    let log: OSLog
     
+    @inlinable
     init(category: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             preconditionFailure("Could not get bundle identifier from the main bundle")
@@ -49,24 +51,29 @@ public struct Profiler: ProfilerProtocol {
         log = OSLog(subsystem: bundleIdentifier, category: category)
     }
     
+    @inlinable
     public func begin(name: StaticString) -> ProfilerTracingProtocol {
         return ProfilerTracing(log: log, name: name)
     }
     
+    @inlinable
     public func begin(name: StaticString, _ message: String) -> ProfilerTracingProtocol {
         return ProfilerTracing(log: log, name: name, message: message)
     }
     
+    @inlinable
     public func debug(_ message: String) {
         #if DEBUG
         os_log(.debug, log: log, "%@", message)
         #endif
     }
     
+    @inlinable
     public func event(name: StaticString) {
         os_signpost(.event, log: log, name: name)
     }
     
+    @inlinable
     public func info(_ message: String) {
         os_log(.info, log: log, "%@", message)
     }

@@ -25,11 +25,7 @@
 import Foundation
 
 public extension Double {
-    private static let doubleFormatter = NumberFormatter().apply {
-        $0.maximumFractionDigits = 2
-        $0.numberStyle = .decimal
-    }
-    
+    @inlinable
     var stringValue: String? {
         return Double.doubleFormatter.string(from: NSNumber(value: self))
     }
@@ -43,5 +39,13 @@ public extension Double {
     func round(places: Int) -> Double {
         let divisor = pow(10, Double(places))
         return (self * divisor).rounded() / divisor
+    }
+}
+
+extension Double {
+    @usableFromInline
+    static let doubleFormatter = NumberFormatter().apply {
+        $0.maximumFractionDigits = 2
+        $0.numberStyle = .decimal
     }
 }

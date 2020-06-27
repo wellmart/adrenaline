@@ -28,9 +28,8 @@ public enum Runtime {
     @inlinable
     @discardableResult
     public static func swizzle<T: AnyObject>(_ type: T.Type, original: Selector, swizzled: Selector) -> Bool {
-        guard
-            let originalMethod = class_getInstanceMethod(type, original),
-            let swizzledMethod = class_getInstanceMethod(type, swizzled) else {
+        guard let originalMethod = class_getInstanceMethod(type, original),
+              let swizzledMethod = class_getInstanceMethod(type, swizzled) else {
             return false
         }
         
