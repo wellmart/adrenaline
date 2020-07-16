@@ -45,6 +45,22 @@ public extension String {
         self.init()
         self.reserveCapacity(reserveCapacity)
     }
+    
+    @inlinable
+    func camelCaseToSnakeCase(separator: String = "_") -> String {
+        let uppercaseLetters = CharacterSet.uppercaseLetters
+        var result = String(reserveCapacity: count)
+        
+        for scalar in unicodeScalars {
+            if uppercaseLetters.contains(scalar) {
+                result.append(separator)
+            }
+            
+            result.append(Character(scalar))
+        }
+        
+        return result.lowercased()
+    }
 }
 
 public extension Optional where Wrapped == String {
