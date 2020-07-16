@@ -52,7 +52,7 @@ public extension String {
         var result = String(reserveCapacity: count)
         
         for scalar in unicodeScalars {
-            if uppercaseLetters.contains(scalar) {
+            if uppercaseLetters.contains(scalar) && !result.isEmpty {
                 result.append(separator)
             }
             
