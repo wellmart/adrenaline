@@ -32,7 +32,7 @@ public extension String {
     
     @inlinable
     var capitalizeFirstLetter: String {
-        return prefix(1).capitalized + dropFirst()
+        return isEmpty ? self : prefix(1).capitalized + dropFirst()
     }
     
     @inlinable
