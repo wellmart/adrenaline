@@ -31,11 +31,6 @@ public extension String {
     }
     
     @inlinable
-    var capitalizeFirstLetter: String {
-        return isEmpty ? self : prefix(1).capitalized + dropFirst()
-    }
-    
-    @inlinable
     var containsNonWhitespace: Bool {
         return !trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
