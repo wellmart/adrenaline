@@ -54,10 +54,11 @@ public extension Array {
     }
     
     @inlinable
-    func forEach<T: Comparable>(groupedBy keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
+    func forEach<T: Comparable>(groupedBy keyPath: KeyPath<Element, T>, sort: Bool = true, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
+        let elements = sort ? sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] } : self
         var lastKey: T? = nil
         
-        for element in self {
+        for element in elements {
             let key = element[keyPath: keyPath]
             
             if lastKey != key {
@@ -67,11 +68,6 @@ public extension Array {
             
             body(element)
         }
-    }
-    
-    @inlinable
-    func forEach<T: Comparable>(groupedBy keyPath: KeyPath<Element, T>, sort: Bool, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
-        return (sort ? sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] } : self).forEach(groupedBy: keyPath, keyBody, body)
     }
 }
 
