@@ -71,8 +71,7 @@ public extension Array {
     
     @inlinable
     func forEach<T: Comparable>(groupedBy keyPath: KeyPath<Element, T>, sort: Bool, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
-        let elements = sort ? sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] } : self
-        return elements.forEach(groupedBy: keyPath, keyBody, body)
+        return (sort ? sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] } : self).forEach(groupedBy: keyPath, keyBody, body)
     }
 }
 
