@@ -30,3 +30,10 @@ public extension Comparable {
         return self < minimum ? minimum : maximum < self ? maximum : self
     }
 }
+
+public extension Comparable where Self: RawRepresentable, RawValue: Comparable {
+    @inlinable
+    static func < (lhs: Self, rhs: Self) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
+}

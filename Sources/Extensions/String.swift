@@ -41,7 +41,6 @@ public extension String {
         self.reserveCapacity(reserveCapacity)
     }
     
-    @inlinable
     func camelCaseToSnakeCase(separator: String = "_") -> String {
         let uppercaseLetters = CharacterSet.uppercaseLetters
         var result = String(reserveCapacity: count)

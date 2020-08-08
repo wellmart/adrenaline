@@ -53,7 +53,6 @@ public extension Array {
         return first { $0 is T } as? T
     }
     
-    @inlinable
     func forEach<T: Comparable>(groupedBy keyPath: KeyPath<Element, T>, sort: Bool = true, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
         let elements = sort ? sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] } : self
         var lastKey: T? = nil
