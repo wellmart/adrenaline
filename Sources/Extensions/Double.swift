@@ -31,7 +31,7 @@ public extension Double {
     }
     
     @inlinable
-    func nonZero(places: Int = 10) -> Bool {
+    func nonZero(places: Int = 2) -> Bool {
         return round(places: places) != 0
     }
     
