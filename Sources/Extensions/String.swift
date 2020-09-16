@@ -31,35 +31,20 @@ public extension String {
     }
     
     @inlinable
-    var containsNonWhitespace: Bool {
-        return !trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    }
-    
-    @inlinable
     init(reserveCapacity: Int) {
         self.init()
         self.reserveCapacity(reserveCapacity)
     }
     
-    func camelCaseToSnakeCase(separator: String = "_") -> String {
-        let uppercaseLetters = CharacterSet.uppercaseLetters
-        var result = String(reserveCapacity: count)
-        
-        for scalar in unicodeScalars {
-            if uppercaseLetters.contains(scalar) && !result.isEmpty {
-                result.append(separator)
-            }
-            
-            result.append(Character(scalar))
-        }
-        
-        return result.lowercased()
+    @inlinable
+    func containsNonWhitespace() -> Bool {
+        return !trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }
 
 public extension Optional where Wrapped == String {
     @inlinable
-    var containsNonWhitespace: Bool {
-        return self?.containsNonWhitespace ?? false
+    func containsNonWhitespace() -> Bool {
+        return self?.containsNonWhitespace() ?? false
     }
 }

@@ -29,17 +29,6 @@ public extension Double {
     var stringValue: String? {
         return Double.doubleFormatter.string(from: NSNumber(value: self))
     }
-    
-    @inlinable
-    func nonZero(places: Int = 2) -> Bool {
-        return round(places: places) != 0
-    }
-    
-    @inlinable
-    func round(places: Int) -> Double {
-        let divisor = pow(10, Double(places))
-        return (self * divisor).rounded() / divisor
-    }
 }
 
 extension Double {

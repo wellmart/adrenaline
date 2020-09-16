@@ -22,8 +22,8 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
 import Accelerate
+import Foundation
 
 public extension Array {
     @inlinable
@@ -49,15 +49,14 @@ public extension Array {
     }
     
     @inlinable
-    func firstOf<T>(_ type: T.Type) -> T? {
+    func first<T>(of type: T.Type) -> T? {
         return first { $0 is T } as? T
     }
     
-    func forEach<T: Comparable>(groupedBy keyPath: KeyPath<Element, T>, sort: Bool = true, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
-        let elements = sort ? sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] } : self
+    func forEach<T: Comparable>(groupedBy keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
         var lastKey: T? = nil
         
-        for element in elements {
+        for element in self {
             let key = element[keyPath: keyPath]
             
             if lastKey != key {
@@ -68,31 +67,10 @@ public extension Array {
             body(element)
         }
     }
-}
-
-public extension Array where Element == Double {
-    @inlinable
-    func maximum() -> Double {
-        var value: Double = 0
-        vDSP_maxvD(self, 1, &value, vDSP_Length(count))
-        
-        return value
-    }
     
     @inlinable
-    func minimum() -> Double {
-        var value: Double = 0
-        vDSP_minvD(self, 1, &value, vDSP_Length(count))
-        
-        return value
-    }
-    
-    @inlinable
-    func sum() -> Double {
-        var value: Double = 0
-        vDSP_sveD(self, 1, &value, vDSP_Length(count))
-        
-        return value
+    func sortedForEach<T: Comparable>(groupedBy keyPath: KeyPath<Element, T>, _ keyBody: (T) -> Void, _ body: (Element) -> Void) {
+        sorted { $0[keyPath: keyPath] < $1[keyPath: keyPath] }.forEach(groupedBy: keyPath, keyBody, body)
     }
 }
 
