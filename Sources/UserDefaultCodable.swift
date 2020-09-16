@@ -24,18 +24,28 @@
 
 import Foundation
 
-public extension UserDefaults {
-    @inlinable
-    func set<T: Codable>(value: T, forKey key: String) {
-        UserDefaults.standard.setValue(try? JSONEncoder().encode(value), forKey: key)
+@propertyWrapper
+public struct UserDefaultCodable<T: Codable> {
+    public typealias DefaultBlock = () -> T
+    
+    private let key: String
+    private let defaultBlock: DefaultBlock
+    
+    public init(_ key: String, defaultValue defaultBlock: @autoclosure @escaping DefaultBlock) {
+        self.key = key
+        self.defaultBlock = defaultBlock
     }
     
-    @inlinable
-    func codable<T: Codable>(forKey key: String) -> T? {
-        guard let data = UserDefaults.standard.data(forKey: key) else {
-            return nil
+    public var wrappedValue: T {
+        get {
+            guard let data = UserDefaults.standard.data(forKey: key) else {
+                return defaultBlock()
+            }
+            
+            return (try? JSONDecoder().decode(T.self, from: data)) ?? defaultBlock()
         }
-        
-        return try? JSONDecoder().decode(T.self, from: data)
+        set {
+            UserDefaults.standard.setValue(try? JSONEncoder().encode(newValue), forKey: key)
+        }
     }
 }
