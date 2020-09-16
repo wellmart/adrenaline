@@ -36,6 +36,21 @@ public extension String {
         self.reserveCapacity(reserveCapacity)
     }
     
+    func camelCaseToSnakeCase(separator: String = "_") -> String {
+        let uppercaseLetters = CharacterSet.uppercaseLetters
+        var result = String(reserveCapacity: count)
+        
+        for scalar in unicodeScalars {
+            if uppercaseLetters.contains(scalar) && !result.isEmpty {
+                result.append(separator)
+            }
+            
+            result.append(Character(scalar))
+        }
+        
+        return result.lowercased()
+    }
+    
     @inlinable
     func containsNonWhitespace() -> Bool {
         return !trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
