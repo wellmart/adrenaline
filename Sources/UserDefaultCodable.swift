@@ -38,11 +38,11 @@ public struct UserDefaultCodable<T: Codable> {
     
     public var wrappedValue: T {
         get {
-            guard let data = UserDefaults.standard.data(forKey: key) else {
-                return defaultBlock()
+            if let data = UserDefaults.standard.data(forKey: key), let value = try? JSONDecoder().decode(T.self, from: data) {
+                return value
             }
             
-            return (try? JSONDecoder().decode(T.self, from: data)) ?? defaultBlock()
+            return defaultBlock()
         }
         set {
             UserDefaults.standard.setValue(try? JSONEncoder().encode(newValue), forKey: key)
