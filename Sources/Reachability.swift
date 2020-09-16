@@ -22,6 +22,7 @@
 //  THE SOFTWARE.
 //
 
+#if !os(watchOS)
 import SystemConfiguration
 
 public enum Reachability {
@@ -45,3 +46,4 @@ public enum Reachability {
         return flags == .reachable && flags != .connectionRequired
     }
 }
+#endif

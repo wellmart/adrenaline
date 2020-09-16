@@ -25,13 +25,11 @@
 import Foundation
 
 @propertyWrapper
-public final class UserDefault<T> {
+public struct UserDefault<T> {
     public typealias DefaultBlock = () -> T
     
     private let key: String
     private let defaultBlock: DefaultBlock
-    
-    private var cached: T?
     
     public init(_ key: String, defaultValue defaultBlock: @autoclosure @escaping DefaultBlock) {
         self.key = key
@@ -40,14 +38,9 @@ public final class UserDefault<T> {
     
     public var wrappedValue: T {
         get {
-            if cached == nil {
-                cached = UserDefaults.standard.object(forKey: key) as? T ?? defaultBlock()
-            }
-            
-            return cached.unsafelyUnwrapped
+            return UserDefaults.standard.object(forKey: key) as? T ?? defaultBlock()
         }
         set {
-            cached = newValue
             UserDefaults.standard.set(newValue, forKey: key)
         }
     }
