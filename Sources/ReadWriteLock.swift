@@ -29,12 +29,12 @@ public final class ReadWriteLock {
     var lock = pthread_rwlock_t()
     
     @inlinable
-    init() {
+    public init() {
         pthread_rwlock_init(&lock, nil)
     }
     
     @inlinable
-    func read<T>(execute work: () throws -> T) rethrows -> T {
+    public func read<T>(execute work: () throws -> T) rethrows -> T {
         defer {
             pthread_rwlock_unlock(&lock)
         }
@@ -44,7 +44,7 @@ public final class ReadWriteLock {
     }
     
     @inlinable
-    func read<T>(execute work: () -> T) -> T {
+    public func read<T>(execute work: () -> T) -> T {
         defer {
             pthread_rwlock_unlock(&lock)
         }
@@ -54,7 +54,7 @@ public final class ReadWriteLock {
     }
     
     @inlinable
-    func write(execute work: () throws -> Void) rethrows {
+    public func write(execute work: () throws -> Void) rethrows {
         defer {
             pthread_rwlock_unlock(&lock)
         }
@@ -64,7 +64,7 @@ public final class ReadWriteLock {
     }
     
     @inlinable
-    func write(execute work: () -> Void) {
+    public func write(execute work: () -> Void) {
         defer {
             pthread_rwlock_unlock(&lock)
         }
