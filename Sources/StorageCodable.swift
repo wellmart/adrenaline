@@ -25,7 +25,7 @@
 import Foundation
 
 @propertyWrapper
-public struct UserDefault<T> {
+public struct StorageCodable<T: Codable> {
     public typealias DefaultBlock = () -> T
     
     private let key: String
@@ -38,10 +38,14 @@ public struct UserDefault<T> {
     
     public var wrappedValue: T {
         get {
-            return UserDefaults.standard.object(forKey: key) as? T ?? defaultBlock()
+            if let data = UserDefaults.standard.data(forKey: key), let value = try? JSONDecoder().decode(T.self, from: data) {
+                return value
+            }
+            
+            return defaultBlock()
         }
         set {
-            UserDefaults.standard.set(newValue, forKey: key)
+            UserDefaults.standard.setValue(try? JSONEncoder().encode(newValue), forKey: key)
         }
     }
 }

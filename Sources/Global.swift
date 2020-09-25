@@ -26,9 +26,9 @@ import Foundation
 
 @inlinable
 public func createProfilerIfSupported(category: String) -> ProfilerProtocol? {
-    guard #available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *) else {
-        return nil
+    if #available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *) {
+        return Profiler(category: category)
     }
     
-    return Profiler(category: category)
+    return nil
 }
