@@ -22,8 +22,8 @@
 //  THE SOFTWARE.
 //
 
-import Accelerate
 import Foundation
+import Accelerate
 
 public extension Array {
     @inlinable

@@ -26,8 +26,13 @@ import Foundation
 
 public extension DispatchQueue {
     @inlinable
-    static var background: DispatchQueue {
-        return global(qos: .background)
+    static var userInitiated: DispatchQueue {
+        return global(qos: .userInitiated)
+    }
+    
+    @inlinable
+    static var utility: DispatchQueue {
+        return global(qos: .utility)
     }
     
     @inlinable

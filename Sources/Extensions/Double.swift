@@ -25,16 +25,12 @@
 import Foundation
 
 public extension Double {
-    @inlinable
-    var stringValue: String? {
-        return Double.doubleFormatter.string(from: NSNumber(value: self))
-    }
-}
-
-extension Double {
-    @usableFromInline
-    static let doubleFormatter = NumberFormatter().apply {
+    private static let doubleFormatter = NumberFormatter().apply {
         $0.maximumFractionDigits = 2
         $0.numberStyle = .decimal
+    }
+    
+    var stringValue: String? {
+        return Double.doubleFormatter.string(from: NSNumber(value: self))
     }
 }
