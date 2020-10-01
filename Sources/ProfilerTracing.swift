@@ -34,17 +34,11 @@ public protocol ProfilerTracingProtocol {
 }
 
 @available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
-public struct ProfilerTracing: ProfilerTracingProtocol {
-    @usableFromInline
-    let log: OSLog
+public struct ProfilerTracing {
+    private let log: OSLog
+    private let name: StaticString
+    private let signpostID: OSSignpostID
     
-    @usableFromInline
-    let name: StaticString
-    
-    @usableFromInline
-    let signpostID: OSSignpostID
-    
-    @inlinable
     init(log: OSLog, name: StaticString) {
         let signpostID = OSSignpostID(log: log)
         
@@ -55,7 +49,6 @@ public struct ProfilerTracing: ProfilerTracingProtocol {
         os_signpost(.begin, log: log, name: name, signpostID: signpostID)
     }
     
-    @inlinable
     init(log: OSLog, name: StaticString, message: String) {
         let signpostID = OSSignpostID(log: log)
         
@@ -69,18 +62,18 @@ public struct ProfilerTracing: ProfilerTracingProtocol {
         os_log(.debug, log: log, "%@", message)
         #endif
     }
-    
-    @inlinable
+}
+
+@available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
+extension ProfilerTracing: ProfilerTracingProtocol {
     public func end() {
         os_signpost(.end, log: log, name: name, signpostID: signpostID)
     }
     
-    @inlinable
     public func end(_ message: String) {
         os_signpost(.end, log: log, name: name, signpostID: signpostID, "%@", message)
     }
     
-    @inlinable
     public func event(name: StaticString) {
         os_signpost(.event, log: log, name: name, signpostID: signpostID)
     }
