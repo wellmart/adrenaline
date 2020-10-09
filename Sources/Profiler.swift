@@ -43,7 +43,7 @@ public struct Profiler {
     
     init(category: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
-            preconditionFailure("Could not get bundle identifier from the main bundle")
+            preconditionFailure("Could not get bundle identifier")
         }
         
         log = OSLog(subsystem: bundleIdentifier, category: category)
