@@ -30,7 +30,11 @@ public extension Double {
         $0.numberStyle = .decimal
     }
     
-    var stringValue: String? {
-        return Double.doubleFormatter.string(from: NSNumber(value: self))
+    var stringValue: String {
+        guard let value = Double.doubleFormatter.string(from: NSNumber(value: self)) else {
+            preconditionFailure("Can't format number")
+        }
+        
+        return value
     }
 }

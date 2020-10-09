@@ -26,11 +26,15 @@ import Foundation
 
 public extension Int {
     @inlinable
-    func string(minimumDigits: Int) -> String? {
+    func string(minimumDigits: Int) -> String {
         let formatter = NumberFormatter().apply {
             $0.minimumIntegerDigits = minimumDigits
         }
         
-        return formatter.string(from: NSNumber(value: self))
+        guard let value = formatter.string(from: NSNumber(value: self)) else {
+            preconditionFailure("Can't format number")
+        }
+        
+        return value
     }
 }
