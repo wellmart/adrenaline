@@ -22,8 +22,8 @@
 //  THE SOFTWARE.
 //
 
-import Foundation
 import os
+import Foundation
 
 public protocol ProfilerProtocol {
     func begin(name: StaticString) -> ProfilerTracingProtocol
