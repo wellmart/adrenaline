@@ -26,12 +26,11 @@ import Foundation
 
 public extension FileManager {
     @inlinable
-    var applicationDirectory: URL {
-        return try! url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
-    }
-    
-    @inlinable
     func inApplicationSupportDirectory(with path: String) -> URL {
-        return applicationDirectory.appendingPathComponent(path)
+        guard let url = try? url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {
+            preconditionFailure("Can't get app support url")
+        }
+        
+        return url.appendingPathComponent(path)
     }
 }
