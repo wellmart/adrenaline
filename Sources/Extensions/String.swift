@@ -50,4 +50,16 @@ public extension String {
         
         return result.lowercased()
     }
+    
+    @inlinable
+    func trim() -> String {
+        return trimmingCharacters(in: .whitespaces)
+    }
+}
+
+public extension Optional where Wrapped == String {
+    @inlinable
+    var isEmptyOrNil: Bool {
+        return self?.isEmpty ?? true
+    }
 }
