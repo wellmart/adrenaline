@@ -50,16 +50,4 @@ public extension String {
         
         return result.lowercased()
     }
-    
-    @inlinable
-    func containsNonWhitespace() -> Bool {
-        return !trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    }
-}
-
-public extension Optional where Wrapped == String {
-    @inlinable
-    func containsNonWhitespace() -> Bool {
-        return self?.containsNonWhitespace() ?? false
-    }
 }
