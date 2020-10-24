@@ -26,11 +26,10 @@ import Foundation
 
 public enum Runtime {
     @inlinable
-    @discardableResult
-    public static func swizzle<T: AnyObject>(_ type: T.Type, original: Selector, swizzled: Selector) -> Bool {
+    public static func swizzle<T: AnyObject>(_ type: T.Type, original: Selector, swizzled: Selector) {
         guard let originalMethod = class_getInstanceMethod(type, original),
               let swizzledMethod = class_getInstanceMethod(type, swizzled) else {
-            return false
+            preconditionFailure("Class doesn't contain the selector")
         }
         
         if !class_addMethod(type, original, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod)) {
@@ -39,7 +38,5 @@ public enum Runtime {
         else {
             class_replaceMethod(type, swizzled, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod))
         }
-        
-        return true
     }
 }
