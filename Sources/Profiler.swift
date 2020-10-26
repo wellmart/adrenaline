@@ -37,7 +37,7 @@ public protocol ProfilerProtocol {
     func info(_ message: String)
 }
 
-@available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
+@available(macOS 10.14, iOS 12, watchOS 5, *)
 public struct Profiler {
     private let log: OSLog
     
@@ -50,7 +50,7 @@ public struct Profiler {
     }
 }
 
-@available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
+@available(macOS 10.14, iOS 12, watchOS 5, *)
 extension Profiler: ProfilerProtocol {
     public func begin(name: StaticString) -> ProfilerTracingProtocol {
         return ProfilerTracing(log: log, name: name)

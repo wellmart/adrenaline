@@ -33,7 +33,7 @@ public protocol ProfilerTracingProtocol {
     func event(name: StaticString)
 }
 
-@available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
+@available(macOS 10.14, iOS 12, watchOS 5, *)
 public struct ProfilerTracing {
     private let log: OSLog
     private let name: StaticString
@@ -64,7 +64,7 @@ public struct ProfilerTracing {
     }
 }
 
-@available(macOS 10.14, iOS 12, tvOS 12, watchOS 5, *)
+@available(macOS 10.14, iOS 12, watchOS 5, *)
 extension ProfilerTracing: ProfilerTracingProtocol {
     public func end() {
         os_signpost(.end, log: log, name: name, signpostID: signpostID)
