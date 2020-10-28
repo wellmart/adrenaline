@@ -25,22 +25,11 @@
 import os
 import Foundation
 
-public protocol ProfilerProtocol {
-    func begin(name: StaticString) -> ProfilerTracingProtocol
+public struct Log {
+    @usableFromInline
+    let log: OSLog
     
-    func begin(name: StaticString, _ message: String) -> ProfilerTracingProtocol
-    
-    func debug(_ message: String)
-    
-    func event(name: StaticString)
-    
-    func info(_ message: String)
-}
-
-@available(macOS 10.14, iOS 12, watchOS 5, *)
-public struct Profiler {
-    private let log: OSLog
-    
+    @inlinable
     init(category: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             preconditionFailure("Can't get bundle identifier")
@@ -48,28 +37,30 @@ public struct Profiler {
         
         log = OSLog(subsystem: bundleIdentifier, category: category)
     }
-}
-
-@available(macOS 10.14, iOS 12, watchOS 5, *)
-extension Profiler: ProfilerProtocol {
-    public func begin(name: StaticString) -> ProfilerTracingProtocol {
-        return ProfilerTracing(log: log, name: name)
+    
+    @inlinable
+    public func begin(name: StaticString) -> LogTracing {
+        return LogTracing(log: log, name: name)
     }
     
-    public func begin(name: StaticString, _ message: String) -> ProfilerTracingProtocol {
-        return ProfilerTracing(log: log, name: name, message: message)
+    @inlinable
+    public func begin(name: StaticString, _ message: String) -> LogTracing {
+        return LogTracing(log: log, name: name, message: message)
     }
     
+    @inlinable
     public func debug(_ message: String) {
         #if DEBUG
         os_log(.debug, log: log, "%@", message)
         #endif
     }
     
+    @inlinable
     public func event(name: StaticString) {
         os_signpost(.event, log: log, name: name)
     }
     
+    @inlinable
     public func info(_ message: String) {
         os_log(.info, log: log, "%@", message)
     }
