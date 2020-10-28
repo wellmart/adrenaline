@@ -30,7 +30,7 @@ public struct Log {
     let log: OSLog
     
     @inlinable
-    init(category: String) {
+    public init(category: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             preconditionFailure("Can't get bundle identifier")
         }
