@@ -26,10 +26,10 @@ import Foundation
 
 public enum ErrorTracing {
     @usableFromInline
-    static var observer: ((_ error: Error) -> Void)?
+    static var observer: ((_ error: Error, _ callStack: [String]) -> Void)?
     
     @inlinable
-    public static func setObserver(_ observer: @escaping (_ error: Error) -> Void) {
+    public static func setObserver(_ observer: @escaping (_ error: Error, _ callStack: [String]) -> Void) {
         self.observer = observer
     }
 }
