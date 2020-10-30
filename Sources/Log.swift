@@ -37,18 +37,8 @@ public protocol LogProtocol {
     func info(_ message: String)
 }
 
-public extension LogProtocol {
-    static func createIfSupported(category: String) -> LogProtocol? {
-        if #available(iOS 12, macOS 10.14, watchOS 5, *) {
-            return Log(category: category)
-        }
-        
-        return nil
-    }
-}
-
 @available(iOS 12, macOS 10.14, watchOS 5, *)
-struct Log {
+public struct Log {
     @usableFromInline
     let log: OSLog
     
@@ -65,12 +55,12 @@ struct Log {
 @available(iOS 12, macOS 10.14, watchOS 5, *)
 extension Log: LogProtocol {
     @inlinable
-    func begin(name: StaticString) -> LogTracingProtocol {
+    public func begin(name: StaticString) -> LogTracingProtocol {
         return LogTracing(log: log, name: name)
     }
     
     @inlinable
-    func begin(name: StaticString, _ message: String) -> LogTracingProtocol {
+    public func begin(name: StaticString, _ message: String) -> LogTracingProtocol {
         return LogTracing(log: log, name: name, message: message)
     }
     
@@ -82,12 +72,12 @@ extension Log: LogProtocol {
     }
     
     @inlinable
-    func event(name: StaticString) {
+    public func event(name: StaticString) {
         os_signpost(.event, log: log, name: name)
     }
     
     @inlinable
-    func info(_ message: String) {
+    public func info(_ message: String) {
         os_log(.info, log: log, "%@", message)
     }
 }

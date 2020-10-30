@@ -34,7 +34,7 @@ public protocol LogTracingProtocol {
 }
 
 @available(iOS 12, macOS 10.14, watchOS 5, *)
-struct LogTracing {
+public struct LogTracing {
     @usableFromInline
     let log: OSLog
     
@@ -74,17 +74,17 @@ struct LogTracing {
 @available(iOS 12, macOS 10.14, watchOS 5, *)
 extension LogTracing: LogTracingProtocol {
     @inlinable
-    func end() {
+    public func end() {
         os_signpost(.end, log: log, name: name, signpostID: signpostID)
     }
     
     @inlinable
-    func end(_ message: String) {
+    public func end(_ message: String) {
         os_signpost(.end, log: log, name: name, signpostID: signpostID, "%@", message)
     }
     
     @inlinable
-    func event(name: StaticString) {
+    public func event(name: StaticString) {
         os_signpost(.event, log: log, name: name, signpostID: signpostID)
     }
 }
