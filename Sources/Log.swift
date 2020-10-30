@@ -22,62 +22,35 @@
 //  THE SOFTWARE.
 //
 
+import _SwiftOSOverlayShims
 import os
 import Foundation
 
-public protocol LogProtocol {
-    func begin(name: StaticString) -> LogTracingProtocol
-    
-    func begin(name: StaticString, _ message: String) -> LogTracingProtocol
-    
-    func debug(_ message: String)
-    
-    func event(name: StaticString)
-    
-    func info(_ message: String)
-}
-
-@available(iOS 12, macOS 10.14, watchOS 5, *)
 public struct Log {
     @usableFromInline
     let log: OSLog
     
     @inlinable
-    init(category: String) {
+    public init(category: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             preconditionFailure("Can't get bundle identifier")
         }
         
         log = OSLog(subsystem: bundleIdentifier, category: category)
     }
-}
-
-@available(iOS 12, macOS 10.14, watchOS 5, *)
-extension Log: LogProtocol {
-    @inlinable
-    public func begin(name: StaticString) -> LogTracingProtocol {
-        return LogTracing(log: log, name: name)
-    }
     
     @inlinable
-    public func begin(name: StaticString, _ message: String) -> LogTracingProtocol {
-        return LogTracing(log: log, name: name, message: message)
-    }
-    
-    @inlinable
-    public func debug(_ message: String) {
+    public func debug(_ message: StaticString, dso: UnsafeRawPointer? = #dsohandle, _ args: CVarArg...) {
         #if DEBUG
-        os_log(.debug, log: log, "%@", message)
+        let ra = _swift_os_log_return_address()
+        
+        message.withUTF8Buffer { buffer in
+            buffer.baseAddress.unsafelyUnwrapped.withMemoryRebound(to: CChar.self, capacity: buffer.count) { str in
+                withVaList(args) { valist in
+                    _swift_os_log(dso, ra, log, .debug, str, valist)
+                }
+            }
+        }
         #endif
-    }
-    
-    @inlinable
-    public func event(name: StaticString) {
-        os_signpost(.event, log: log, name: name)
-    }
-    
-    @inlinable
-    public func info(_ message: String) {
-        os_log(.info, log: log, "%@", message)
     }
 }

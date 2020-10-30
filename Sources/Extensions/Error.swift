@@ -24,42 +24,10 @@
 
 import Foundation
 
-public extension Array {
+public extension Error {
     @inlinable
-    init(reserveCapacity: Int) {
-        self.init()
-        self.reserveCapacity(reserveCapacity)
-    }
-    
-    @inlinable
-    subscript(optional index: Index) -> Element? {
-        return index >= 0 && index < count ? self[index] : nil
-    }
-    
-    @inlinable
-    func count(where predicate: (Element) -> Bool) -> Int {
-        var count = 0
-        
-        for element in self where predicate(element) {
-            count += 1
-        }
-        
-        return count
-    }
-    
-    @inlinable
-    func first<T>(of type: T.Type) -> T? {
-        return first { $0 is T } as? T
-    }
-}
-
-public extension Array where Element: Equatable {
-    @inlinable
-    mutating func remove(_ element: Element) {
-        guard let index = firstIndex(of: element) else {
-            return
-        }
-        
-        remove(at: index)
+    static func trace(_ error: Self) -> Self {
+        ErrorTracing.observer?(error)
+        return error
     }
 }

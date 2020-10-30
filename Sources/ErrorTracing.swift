@@ -24,11 +24,12 @@
 
 import Foundation
 
-@inlinable
-public func createLogIfSupported(category: String) -> LogProtocol? {
-    if #available(iOS 12, macOS 10.14, watchOS 5, *) {
-        return Log(category: category)
-    }
+public enum ErrorTracing {
+    @usableFromInline
+    static var observer: ((_ error: Error) -> Void)?
     
-    return nil
+    @inlinable
+    public static func setObserver(_ observer: @escaping (_ error: Error) -> Void) {
+        self.observer = observer
+    }
 }
