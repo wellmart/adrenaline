@@ -37,27 +37,40 @@ public protocol LogProtocol {
     func info(_ message: String)
 }
 
+public extension LogProtocol {
+    static func createIfSupported(category: String) -> LogProtocol? {
+        if #available(iOS 12, macOS 10.14, watchOS 5, *) {
+            return Log(category: category)
+        }
+        
+        return nil
+    }
+}
+
 @available(iOS 12, macOS 10.14, watchOS 5, *)
-public struct Log: LogProtocol {
+struct Log {
     @usableFromInline
     let log: OSLog
     
     @inlinable
-    public init(category: String) {
+    init(category: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             preconditionFailure("Can't get bundle identifier")
         }
         
         log = OSLog(subsystem: bundleIdentifier, category: category)
     }
-    
+}
+
+@available(iOS 12, macOS 10.14, watchOS 5, *)
+extension Log: LogProtocol {
     @inlinable
-    public func begin(name: StaticString) -> LogTracingProtocol {
+    func begin(name: StaticString) -> LogTracingProtocol {
         return LogTracing(log: log, name: name)
     }
     
     @inlinable
-    public func begin(name: StaticString, _ message: String) -> LogTracingProtocol {
+    func begin(name: StaticString, _ message: String) -> LogTracingProtocol {
         return LogTracing(log: log, name: name, message: message)
     }
     
@@ -69,12 +82,12 @@ public struct Log: LogProtocol {
     }
     
     @inlinable
-    public func event(name: StaticString) {
+    func event(name: StaticString) {
         os_signpost(.event, log: log, name: name)
     }
     
     @inlinable
-    public func info(_ message: String) {
+    func info(_ message: String) {
         os_log(.info, log: log, "%@", message)
     }
 }
