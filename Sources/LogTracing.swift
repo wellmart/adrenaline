@@ -25,7 +25,16 @@
 import os
 import Foundation
 
-public struct LogTracing {
+public protocol LogTracingProtocol {
+    func end()
+    
+    func end(_ message: String)
+    
+    func event(name: StaticString)
+}
+
+@available(iOS 12, macOS 10.14, watchOS 5, *)
+public struct LogTracing: LogTracingProtocol {
     @usableFromInline
     let log: OSLog
     

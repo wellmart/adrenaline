@@ -25,7 +25,20 @@
 import os
 import Foundation
 
-public struct Log {
+public protocol LogProtocol {
+    func begin(name: StaticString) -> LogTracingProtocol
+    
+    func begin(name: StaticString, _ message: String) -> LogTracingProtocol
+    
+    func debug(_ message: String)
+    
+    func event(name: StaticString)
+    
+    func info(_ message: String)
+}
+
+@available(iOS 12, macOS 10.14, watchOS 5, *)
+public struct Log: LogProtocol {
     @usableFromInline
     let log: OSLog
     
@@ -39,12 +52,12 @@ public struct Log {
     }
     
     @inlinable
-    public func begin(name: StaticString) -> LogTracing {
+    public func begin(name: StaticString) -> LogTracingProtocol {
         return LogTracing(log: log, name: name)
     }
     
     @inlinable
-    public func begin(name: StaticString, _ message: String) -> LogTracing {
+    public func begin(name: StaticString, _ message: String) -> LogTracingProtocol {
         return LogTracing(log: log, name: name, message: message)
     }
     
