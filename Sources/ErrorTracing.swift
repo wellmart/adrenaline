@@ -29,7 +29,7 @@ public enum ErrorTracing {
     static var observer: ((_ error: Error, _ callStack: [String]) -> Void)?
     
     @inlinable
-    public static func setObserver(_ observer: @escaping (_ error: Error, _ callStack: [String]) -> Void) {
+    public static func observe(_ observer: @escaping (_ error: Error, _ callStack: [String]) -> Void) {
         self.observer = observer
     }
 }
