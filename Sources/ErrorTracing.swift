@@ -32,4 +32,9 @@ public enum ErrorTracing {
     public static func observe(_ observer: @escaping (_ error: Error, _ callStack: [String]) -> Void) {
         self.observer = observer
     }
+    
+    @inlinable
+    public static func trace(error: Error) {
+        observer?(error, Thread.callStackSymbols.dropFirst().dropLast())
+    }
 }
