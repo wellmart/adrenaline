@@ -24,17 +24,19 @@
 
 import Foundation
 
-public enum ErrorTracing {
+public enum FirstChanceError {
+    public typealias ActionBlock = (_ error: Error, _ callStackSymbols: [String]) -> Void
+    
     @usableFromInline
-    static var observer: ((_ error: Error, _ callStack: [String]) -> Void)?
+    static var action: ActionBlock?
     
     @inlinable
-    public static func observe(_ observer: @escaping (_ error: Error, _ callStack: [String]) -> Void) {
-        self.observer = observer
+    public static func observe(_ action: @escaping ActionBlock) {
+        self.action = action
     }
     
     @inlinable
-    public static func trace(error: Error) {
-        observer?(error, Thread.callStackSymbols.dropFirst().dropLast())
+    public static func notify(_ error: Error, callStackSymbols: [String] = Thread.callStackSymbols) {
+        action?(error, callStackSymbols)
     }
 }

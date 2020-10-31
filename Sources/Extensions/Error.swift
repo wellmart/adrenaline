@@ -26,8 +26,8 @@ import Foundation
 
 public extension Error {
     @inlinable
-    static func trace(_ error: Self) -> Self {
-        ErrorTracing.observer?(error, Thread.callStackSymbols.dropFirst().dropLast())
+    static func firstChance(_ error: Self, callStackSymbols: [String] = Thread.callStackSymbols) -> Self {
+        FirstChanceError.action?(error, callStackSymbols)
         return error
     }
 }
