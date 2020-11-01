@@ -46,11 +46,7 @@ public struct Log {
         #endif
     }
     
-    @inlinable
-    public func error(_ error: Error, dso: UnsafeRawPointer? = #dsohandle) {
-        log(type: .error, message: "🔶 ERROR: %@", dso: dso, args: [(error as CustomStringConvertible).description])
-    }
-    
+    #if DEBUG
     @usableFromInline
     func log(type: OSLogType, message: StaticString, dso: UnsafeRawPointer?, args: [CVarArg]) {
         let ra = _swift_os_log_return_address()
@@ -63,4 +59,5 @@ public struct Log {
             }
         }
     }
+    #endif
 }
