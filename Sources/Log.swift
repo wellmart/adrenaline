@@ -42,15 +42,25 @@ public struct Log {
     @inlinable
     public func debug(_ message: StaticString, dso: UnsafeRawPointer? = #dsohandle, _ args: CVarArg...) {
         #if DEBUG
+        log(type: .debug, message: message, dso: dso, args: args)
+        #endif
+    }
+    
+    @inlinable
+    public func error(_ error: Error, dso: UnsafeRawPointer? = #dsohandle) {
+        log(type: .error, message: "🔶 ERROR: %@", dso: dso, args: [(error as CustomStringConvertible).description])
+    }
+    
+    @usableFromInline
+    func log(type: OSLogType, message: StaticString, dso: UnsafeRawPointer?, args: [CVarArg]) {
         let ra = _swift_os_log_return_address()
         
         message.withUTF8Buffer { buffer in
             buffer.baseAddress.unsafelyUnwrapped.withMemoryRebound(to: CChar.self, capacity: buffer.count) { str in
                 withVaList(args) { valist in
-                    _swift_os_log(dso, ra, log, .debug, str, valist)
+                    _swift_os_log(dso, ra, log, type, str, valist)
                 }
             }
         }
-        #endif
     }
 }
