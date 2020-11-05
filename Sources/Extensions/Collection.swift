@@ -24,45 +24,7 @@
 
 import Foundation
 
-public extension String {
-    @inlinable
-    static var empty: String {
-        return String()
-    }
-    
-    @inlinable
-    init(reserveCapacity: Int) {
-        self.init()
-        self.reserveCapacity(reserveCapacity)
-    }
-    
-    func camelCaseToSnakeCase(separator: String = "_") -> String {
-        let uppercaseLetters = CharacterSet.uppercaseLetters
-        var result = String(reserveCapacity: count)
-        
-        for scalar in unicodeScalars {
-            if uppercaseLetters.contains(scalar) && !result.isEmpty {
-                result.append(separator)
-            }
-            
-            result.append(Character(scalar))
-        }
-        
-        return result.lowercased()
-    }
-    
-    @inlinable
-    func capitalizeFirstLetter() -> String {
-        return prefix(1).capitalized + dropFirst()
-    }
-    
-    @inlinable
-    func trim() -> String {
-        return trimmingCharacters(in: .whitespaces)
-    }
-}
-
-public extension Optional where Wrapped == String {
+public extension Optional where Wrapped: Collection {
     @inlinable
     var isNilOrEmpty: Bool {
         switch self {
