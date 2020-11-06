@@ -61,16 +61,3 @@ public extension String {
         return trimmingCharacters(in: .whitespaces)
     }
 }
-
-public extension Optional where Wrapped == String {
-    @inlinable
-    var isNilOrEmpty: Bool {
-        switch self {
-        case .none:
-            return true
-            
-        case let .some(value):
-            return value.isEmpty
-        }
-    }
-}
