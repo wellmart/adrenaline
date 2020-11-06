@@ -27,15 +27,12 @@ import Foundation
 public enum FirstChanceError {
     public typealias ActionBlock = (_ error: Error, _ callStackSymbols: [String]) -> Void
     
-    @usableFromInline
-    static var action: ActionBlock?
+    private static var action: ActionBlock?
     
-    @inlinable
     public static func observe(_ action: @escaping ActionBlock) {
         self.action = action
     }
     
-    @inlinable
     public static func notify(_ error: Error, callStackSymbols: [String] = Thread.callStackSymbols) {
         action?(error, callStackSymbols)
     }

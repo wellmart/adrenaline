@@ -46,7 +46,6 @@ public struct Log {
         #endif
     }
     
-    #if DEBUG
     @usableFromInline
     func log(type: OSLogType, message: StaticString, dso: UnsafeRawPointer?, args: [CVarArg]) {
         let ra = _swift_os_log_return_address()
@@ -59,5 +58,4 @@ public struct Log {
             }
         }
     }
-    #endif
 }

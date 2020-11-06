@@ -27,7 +27,7 @@ import Foundation
 public extension Error {
     @inlinable
     static func firstChance(_ error: Self, callStackSymbols: [String] = Thread.callStackSymbols) -> Self {
-        FirstChanceError.action?(error, callStackSymbols)
+        FirstChanceError.notify(error, callStackSymbols: callStackSymbols)
         return error
     }
 }
