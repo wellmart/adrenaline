@@ -52,11 +52,6 @@ public extension String {
     }
     
     @inlinable
-    func capitalizeFirstLetter() -> String {
-        return prefix(1).capitalized + dropFirst()
-    }
-    
-    @inlinable
     func trim() -> String {
         return trimmingCharacters(in: .whitespaces)
     }
