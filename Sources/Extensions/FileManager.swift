@@ -27,7 +27,13 @@ import Foundation
 public extension FileManager {
     @inlinable
     func inApplicationSupportDirectory(with path: String) -> URL {
-        guard let url = try? url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {
+        let url: URL
+        
+        do {
+            url = try self.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        }
+        catch {
+            FirstChanceError.notify(error)
             preconditionFailure("Can't get app support url")
         }
         
