@@ -27,23 +27,26 @@ import os
 import Foundation
 
 public struct Log {
-    @usableFromInline
-    let log: OSLog
+    private let log: OSLog
     
-    @inlinable
-    public init(category: String) {
+    #if DEBUG
+    public init?(category: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             preconditionFailure("Can't get bundle identifier")
         }
         
         log = OSLog(subsystem: bundleIdentifier, category: category)
     }
+    #else
+    @inlinable
+    public init?(category: String) {
+        return nil
+    }
+    #endif
     
     @inlinable
     public func debug(_ message: StaticString, dso: UnsafeRawPointer? = #dsohandle, _ args: CVarArg...) {
-        #if DEBUG
         log(type: .debug, message: message, dso: dso, args: args)
-        #endif
     }
     
     @usableFromInline
