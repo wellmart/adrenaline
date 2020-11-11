@@ -46,7 +46,9 @@ public struct Log {
     
     @inlinable
     public func debug(_ message: StaticString, dso: UnsafeRawPointer? = #dsohandle, _ args: CVarArg...) {
+        #if DEBUG
         log(type: .debug, message: message, dso: dso, args: args)
+        #endif
     }
     
     @usableFromInline
