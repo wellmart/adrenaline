@@ -24,13 +24,6 @@
 
 import Foundation
 
-public extension Comparable {
-    @inlinable
-    func clamped(maximum: Self, minimum: Self) -> Self {
-        return self < minimum ? minimum : maximum < self ? maximum : self
-    }
-}
-
 public extension Comparable where Self: RawRepresentable, RawValue: Comparable {
     @inlinable
     static func < (lhs: Self, rhs: Self) -> Bool {
