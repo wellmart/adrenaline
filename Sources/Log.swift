@@ -37,19 +37,6 @@ public struct Log {
         
         log = OSLog(subsystem: bundleIdentifier, category: category)
     }
-    #else
-    @inlinable
-    public init?(category: String) {
-        return nil
-    }
-    #endif
-    
-    @inlinable
-    public func debug(_ message: StaticString, dso: UnsafeRawPointer? = #dsohandle, _ args: CVarArg...) {
-        #if DEBUG
-        log(type: .debug, message: message, dso: dso, args: args)
-        #endif
-    }
     
     @usableFromInline
     func log(type: OSLogType, message: StaticString, dso: UnsafeRawPointer?, args: [CVarArg]) {
@@ -62,5 +49,18 @@ public struct Log {
                 }
             }
         }
+    }
+    #else
+    @inlinable
+    public init?(category: String) {
+        return nil
+    }
+    #endif
+    
+    @inlinable
+    public func debug(_ message: StaticString, dso: UnsafeRawPointer? = #dsohandle, _ args: CVarArg...) {
+        #if DEBUG
+        log(type: .debug, message: message, dso: dso, args: args)
+        #endif
     }
 }
