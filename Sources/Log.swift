@@ -27,9 +27,9 @@ import os
 import Foundation
 
 public struct Log {
+    #if DEBUG
     private let log: OSLog
     
-    #if DEBUG
     public init?(category: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             preconditionFailure("Can't get bundle identifier")
